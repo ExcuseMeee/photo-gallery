@@ -10,7 +10,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        Home page
+        <div className='font-bold'>
+          Home page
+        </div>
       </main>
     </>
   )
