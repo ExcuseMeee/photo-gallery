@@ -12,7 +12,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className='flex flex-col lg:flex-row flex-wrap justify-evenly items-center'>
+        <div className='flex flex-col lg:flex-row flex-wrap justify-evenly items-center mt-3'>
           <Photo imgUrl={'/space-img.jpg'} />
           <Photo imgUrl={'/space-img.jpg'} />
           <Photo imgUrl={'/space-img.jpg'} />
