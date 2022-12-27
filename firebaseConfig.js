@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID
+  apiKey: "AIzaSyARQimdLVW3SNmdrbaSz9law0HnQxlWugs",
+  authDomain: "photo-gallery-e3990.firebaseapp.com",
+  projectId: "photo-gallery-e3990",
+  storageBucket: "photo-gallery-e3990.appspot.com",
+  messagingSenderId: "57177872599",
+  appId: "1:57177872599:web:e261eae674912b24e93892",
+  measurementId: "G-HFYSJV41F9"
 };
 
 // Initialize Firebase
