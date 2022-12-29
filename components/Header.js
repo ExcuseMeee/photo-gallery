@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { handleSignIn } from "../util/firebaseAuth";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
+  const { user, loginUser, logoutUser } = useAuth();
+
   return (
     <header className="bg-white flex items-center justify-between sticky top-0 shadow-md h-12 divide-x">
       <div className="hidden lg:flex items-center mx-5 h-full">
@@ -26,10 +28,16 @@ const Header = () => {
           className="flex items-center justify-center h-full w-1/3 hover:bg-gray-100"
           onClick={() => {
             console.log("signin clicked");
-            handleSignIn();
+            if(user){
+              console.log("logging out user")
+              logoutUser();
+            }else{
+              console.log("logging in user")
+              loginUser();
+            }
           }}
         >
-          Login
+          {user ? <p>Logout</p> : <p>Login</p>}
         </button>
       </div>
     </header>

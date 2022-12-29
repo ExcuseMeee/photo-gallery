@@ -18,6 +18,4 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 
-console.log("fireconfig ran")
-
 export { db, auth };
