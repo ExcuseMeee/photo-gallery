@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import ActionBar from '../components/ActionBar'
 import Photo from '../components/Photo'
 
 export default function Home() {
@@ -12,14 +13,15 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className='flex flex-col lg:flex-row flex-wrap justify-evenly items-center mt-3'>
-          <Photo imgUrl={'/space-img.jpg'} />
-          <Photo imgUrl={'/space-img.jpg'} />
-          <Photo imgUrl={'/space-img.jpg'} />
-          <Photo imgUrl={'/space-img.jpg'} />
-          <Photo imgUrl={'/space-img.jpg'} />
-          <Photo imgUrl={'/space-img.jpg'} />
-          <Photo imgUrl={'/space-img.jpg'} />
+        <ActionBar />
+        <div className='flex flex-col lg:flex-row flex-wrap justify-evenly items-center'>
+          <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
+          <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
+          <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
+          <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
+          <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
+          <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
+          <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
 
         </div>
       </main>
