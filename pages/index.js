@@ -1,8 +1,18 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import ActionBar from '../components/ActionBar'
+// import Modal from '../components/Modal'
 import Photo from '../components/Photo'
+import { useModal } from '../context/ModalContext'
 
 export default function Home() {
+
+  const {Modal, modalState} = useModal();
+
+
+  // const [modalState, setModalState] = useState(false)
+  // const [modalType, setModalType] = useState('')
+
   return (
     <div>
       <Head>
@@ -13,8 +23,11 @@ export default function Home() {
       </Head>
 
       <main>
+        {modalState && <Modal/>}
+        {/* {modalState && <Modal type={modalType} setModalState={setModalState} /> } */}
+        {/* <ActionBar setModalState={setModalState} setModalType={setModalType} /> */}
         <ActionBar />
-        <div className='flex flex-col lg:flex-row flex-wrap justify-evenly items-center'>
+        <div className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`} >
           <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
           <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
           <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />
