@@ -9,10 +9,6 @@ export default function Home() {
 
   const {Modal, modalState} = useModal();
 
-
-  // const [modalState, setModalState] = useState(false)
-  // const [modalType, setModalType] = useState('')
-
   return (
     <div>
       <Head>
@@ -24,8 +20,6 @@ export default function Home() {
 
       <main>
         {modalState && <Modal/>}
-        {/* {modalState && <Modal type={modalType} setModalState={setModalState} /> } */}
-        {/* <ActionBar setModalState={setModalState} setModalType={setModalType} /> */}
         <ActionBar />
         <div className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`} >
           <Photo imgUrl={'/space-img.jpg'} title={"Space Image"} />

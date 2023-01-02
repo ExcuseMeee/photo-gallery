@@ -24,7 +24,7 @@ export const ModalContextProvider = ({ children }) => {
       <div
         className="fixed top-0 left-0 h-[100vh] w-[100vw] bg-black/70 flex items-center justify-center z-50"
         onClick={() => {
-          setModalState(false);
+          closeModal();
         }}
       >
         <div
@@ -37,9 +37,27 @@ export const ModalContextProvider = ({ children }) => {
     );
   }
 
+  function openModal(type) {
+    setModalType(type);
+    setModalState(true);
+  }
+
+  function closeModal() {
+    setModalState(false);
+    setModalType("");
+  }
+
   return (
     <ModalContext.Provider
-      value={{ modalState, modalType, setModalState, setModalType, Modal }}
+      value={{
+        modalState,
+        modalType,
+        setModalState,
+        setModalType,
+        Modal,
+        openModal,
+        closeModal,
+      }}
     >
       {children}
     </ModalContext.Provider>
