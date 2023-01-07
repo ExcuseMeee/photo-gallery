@@ -5,7 +5,7 @@ const Header = () => {
   const { user, loginUser, logoutUser } = useAuth();
 
   return (
-    <header className="bg-white flex items-center justify-between sticky top-0 shadow-md h-12 divide-x">
+    <header className="bg-white flex items-center justify-between sticky top-0 shadow-md h-12 divide-x z-50">
       <div className="hidden lg:flex items-center mx-5 h-full">
         <Link href={"/"} className="flex items-center h-full">
           Logo

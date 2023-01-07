@@ -1,8 +1,12 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useState } from "react";
-import { storage } from "../firebaseConfig";
+import { db, storage } from "../firebaseConfig";
+import { useModal } from "../context/ModalContext";
+import { addDoc, collection } from "firebase/firestore";
 
 const AddPhoto = () => {
+  const { closeModal } = useModal();
+
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
 
@@ -13,7 +17,7 @@ const AddPhoto = () => {
     setFile(selected);
   }
 
-  function handleSubmit(e) {
+  function submitPhoto(e) {
     e.preventDefault();
     console.log("upload clicked");
     if (!file) return;
@@ -26,16 +30,27 @@ const AddPhoto = () => {
     uploadBytes(imageRef, file).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((downloadUrl) => {
         console.log("Success: ", downloadUrl);
+        createDocument(downloadUrl)
+        closeModal();
       });
     });
   }
 
+  function createDocument(downloadUrl){
+    const collectionRef = collection(db, 'photos')
+    addDoc(collectionRef, {
+      title: title,
+      imageUrl: downloadUrl
+    })
+  }
+
+
   return (
     <div className="border h-full flex flex-col items-center">
       <div>Add Photo</div>
-      <form className="flex flex-col" onSubmit={handleSubmit}>
-        <input type="text" placeholder="Title" />
-        <input type="file" onChange={handleChange} />
+      <form className="flex flex-col" onSubmit={submitPhoto}>
+        <input required type="text" value={title} onChange={(e)=> setTitle(e.target.value)} placeholder="Title" />
+        <input required type="file" onChange={handleChange} />
         <button type="submit">Upload</button>
       </form>
     </div>
