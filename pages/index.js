@@ -1,34 +1,29 @@
-import { collection, getDocs } from 'firebase/firestore'
-import Head from 'next/head'
-import { useState } from 'react'
-import ActionBar from '../components/ActionBar'
-import Photo from '../components/Photo'
-import { useModal } from '../context/ModalContext'
-import { db } from '../firebaseConfig'
+import { collection, getDocs } from "firebase/firestore";
+import Head from "next/head";
+import { useState } from "react";
+import ActionBar from "../components/ActionBar";
+import Photo from "../components/Photo";
+import { useModal } from "../context/ModalContext";
+import { db } from "../firebaseConfig";
 
-
-export async function getServerSideProps(){
-
-  const collectionRef = collection(db, 'photos')
-  const data = await getDocs(collectionRef)
-  const photoDocs = data.docs.map((doc)=>{
-    return { ...doc.data(), id: doc.id}
-  })
-
+export async function getServerSideProps() {
+  const collectionRef = collection(db, "photos");
+  const data = await getDocs(collectionRef);
+  const photoDocs = data.docs.map((doc) => {
+    return { ...doc.data(), id: doc.id };
+  });
 
   return {
     props: {
-      photoDocs
-    }
-  }
+      photoDocs,
+    },
+  };
 }
 
+export default function Home({ photoDocs }) {
+  const { Modal, modalState } = useModal();
 
-export default function Home({photoDocs}) {
-
-  const {Modal, modalState} = useModal();
-
-  const [photoDocuments, setPhotoDocuments] = useState(photoDocs)
+  const [photoDocuments, setPhotoDocuments] = useState(photoDocs);
 
   return (
     <div>
@@ -40,22 +35,27 @@ export default function Home({photoDocs}) {
       </Head>
 
       <main>
-        {modalState && <Modal/>}
+        {modalState && <Modal />}
         <ActionBar />
-        <div className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`} >
-          <Photo imgUrl={'/space-img.jpg'} title={"Static Placeholder"} />
-          <Photo imgUrl={'/space-img.jpg'} title={"Static Placeholder"} />
-          <Photo imgUrl={'/space-img.jpg'} title={"Static Placeholder"} />
-          <Photo imgUrl={'/space-img.jpg'} title={"Static Placeholder"} />
-          <Photo imgUrl={'/space-img.jpg'} title={"Static Placeholder"} />
-          {
-            photoDocuments.map((document)=>{
-              return <Photo key={document.id} imgUrl={document.imageUrl} title={document.title} />
-            })
-          }
-
+        <div
+          className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`}
+        >
+          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          {photoDocuments.map((document) => {
+            return (
+              <Photo
+                key={document.id}
+                imgUrl={document.imageUrl}
+                title={document.title}
+              />
+            );
+          })}
         </div>
       </main>
     </div>
-  )
+  );
 }

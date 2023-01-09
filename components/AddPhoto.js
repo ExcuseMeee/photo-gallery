@@ -3,9 +3,11 @@ import { useState } from "react";
 import { db, storage } from "../firebaseConfig";
 import { useModal } from "../context/ModalContext";
 import { addDoc, collection } from "firebase/firestore";
+import { useAuth } from "../context/AuthContext";
 
 const AddPhoto = () => {
   const { closeModal } = useModal();
+  const { user } = useAuth();
 
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
@@ -20,6 +22,7 @@ const AddPhoto = () => {
   function submitPhoto(e) {
     e.preventDefault();
     console.log("upload clicked");
+    if(!user) console.log("No user");
     if (!file) return;
     console.log("File name to be uploaded: ", file.name);
     uploadFileToStorage();
