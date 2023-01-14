@@ -31,7 +31,7 @@ export const ModalContextProvider = ({ children }) => {
         onClick={closeModal}
       >
         <div
-          className="bg-white w-3/5 h-5/6 rounded-xl p-4 min-w-fit"
+          className="bg-white w-3/5 h-[85%] rounded-xl p-4 min-w-fit"
           onClick={(e) => e.stopPropagation()}
         >
           <ModalContent />

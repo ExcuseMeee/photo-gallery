@@ -11,7 +11,7 @@ const Photo = ({ imgUrl, title }) => {
 
   return (
     <div
-      className="w-2/3 lg:w-1/4 h-72 flex flex-col items-center justify-evenly bg-gray-300 rounded-lg m-2 divide-y hover:shadow-md"
+      className="w-2/3 lg:w-1/4 h-72 flex flex-col items-center justify-evenly bg-white rounded-lg m-2 divide-y hover:shadow-md hover:cursor-pointer"
       onClick={handler}
     >
       <div className="w-full flex justify-center h-fit">{title}</div>
