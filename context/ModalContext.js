@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import AddPhoto from "../components/AddPhoto";
+import ExpandedPhoto from "../components/ExpandedPhoto";
 
 const ModalContext = createContext();
 
@@ -7,10 +8,14 @@ export const ModalContextProvider = ({ children }) => {
   const [modalState, setModalState] = useState(false);
   const [modalType, setModalType] = useState("");
 
+  const [modalParameters, setModalParameters] = useState({})
+
   function ModalContent() {
     switch (modalType) {
       case "add":
         return <AddPhoto />;
+      case "photo":
+        return <ExpandedPhoto title={modalParameters.title} imgUrl={modalParameters.imgUrl} />
 
       //Add more modal content below...
 
@@ -26,7 +31,7 @@ export const ModalContextProvider = ({ children }) => {
         onClick={closeModal}
       >
         <div
-          className="bg-white w-1/2 h-3/4 rounded-xl p-4 min-w-fit"
+          className="bg-white w-3/5 h-5/6 rounded-xl p-4 min-w-fit"
           onClick={(e) => e.stopPropagation()}
         >
           <ModalContent />
@@ -35,14 +40,16 @@ export const ModalContextProvider = ({ children }) => {
     );
   }
 
-  function openModal(type) {
+  function openModal(type, data = {}) {
     setModalType(type);
     setModalState(true);
+    setModalParameters(data)
   }
 
   function closeModal() {
     setModalState(false);
     setModalType("");
+    setModalParameters({})
   }
 
   return (
