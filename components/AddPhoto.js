@@ -53,7 +53,7 @@ const AddPhoto = () => {
       <div>Add Photo</div>
       <form className="flex flex-col" onSubmit={submitPhoto}>
         <input required type="text" value={title} onChange={(e)=> setTitle(e.target.value)} placeholder="Title" />
-        <input required type="file" onChange={handleChange} />
+        <input required type="file" onChange={handleChange} accept={"image/*"} />
         <button type="submit">Upload</button>
       </form>
     </div>

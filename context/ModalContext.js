@@ -15,7 +15,7 @@ export const ModalContextProvider = ({ children }) => {
       case "add":
         return <AddPhoto />;
       case "photo":
-        return <ExpandedPhoto title={modalParameters.title} imgUrl={modalParameters.imgUrl} />
+        return <ExpandedPhoto title={modalParameters.title} imageUrl={modalParameters.imageUrl} />
 
       //Add more modal content below...
 

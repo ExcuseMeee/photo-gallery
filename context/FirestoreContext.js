@@ -7,20 +7,23 @@ const FirestoreContext = createContext();
 export const FirestoreContextProvider = ({ children }) => {
   const colRef = collection(db, "photos");
 
+  const [photoDocuments, setPhotoDocuments] = useState(null)
+
   async function getPhotoDocuments() {
     try {
       const data = await getDocs(colRef);
       const photoDocs = data.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
-      console.log(photoDocs)
+      // console.log("from context: ", photoDocs)
+      setPhotoDocuments(photoDocs)
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <FirestoreContext.Provider value={{ getPhotoDocuments }}>
+    <FirestoreContext.Provider value={{ getPhotoDocuments, photoDocuments }}>
       {children}
     </FirestoreContext.Provider>
   );

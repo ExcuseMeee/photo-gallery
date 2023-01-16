@@ -5,6 +5,7 @@ import ActionBar from "../components/ActionBar";
 import Photo from "../components/Photo";
 import { useModal } from "../context/ModalContext";
 import { db } from "../firebaseConfig";
+import { useFirestore } from "../context/FirestoreContext";
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -15,15 +16,14 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      photoDocs,
+      ssrPhotoDocs: photoDocs,
     },
   };
 }
 
-export default function Home({ photoDocs }) {
+export default function Home({ ssrPhotoDocs }) {
   const { Modal, modalState } = useModal();
-
-  const [photoDocuments, setPhotoDocuments] = useState(photoDocs);
+  const { photoDocuments } = useFirestore();
 
   return (
     <div>
@@ -34,26 +34,39 @@ export default function Home({ photoDocs }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      {console.log(photoDocuments)}
+
       <main>
         {modalState && <Modal />}
         <ActionBar />
         <div
           className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`}
         >
-          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          <Photo imgUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          {photoDocuments.map((document) => {
-            return (
-              <Photo
-                key={document.id}
-                imgUrl={document.imageUrl}
-                title={document.title}
-              />
-            );
-          })}
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+
+          {photoDocuments
+            ? photoDocuments.map((document) => {
+                return (
+                  <Photo
+                    key={document.id}
+                    imageUrl={document.imageUrl}
+                    title={document.title}
+                  />
+                );
+              })
+            : ssrPhotoDocs.map((document) => {
+                return (
+                  <Photo
+                    key={document.id}
+                    imageUrl={document.imageUrl}
+                    title={document.title + "ssr rendered"}
+                  />
+                );
+              })}
         </div>
       </main>
     </div>
