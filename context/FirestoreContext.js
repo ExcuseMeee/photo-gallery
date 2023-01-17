@@ -9,7 +9,7 @@ export const FirestoreContextProvider = ({ children }) => {
 
   const [photoDocuments, setPhotoDocuments] = useState(null)
 
-  async function getPhotoDocuments() {
+  async function pullPhotoDocuments() {
     try {
       const data = await getDocs(colRef);
       const photoDocs = data.docs.map((doc) => {
@@ -23,7 +23,7 @@ export const FirestoreContextProvider = ({ children }) => {
   }
 
   return (
-    <FirestoreContext.Provider value={{ getPhotoDocuments, photoDocuments }}>
+    <FirestoreContext.Provider value={{ pullPhotoDocuments, photoDocuments }}>
       {children}
     </FirestoreContext.Provider>
   );

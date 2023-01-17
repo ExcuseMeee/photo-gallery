@@ -3,11 +3,14 @@ import { useFirestore } from "../context/FirestoreContext";
 
 const ActionBar = () => {
   const { openModal } = useModal();
-  const { getPhotoDocuments } = useFirestore()
+  const { pullPhotoDocuments } = useFirestore();
 
   return (
     <div className="flex items-center justify-center my-2 space-x-2 sticky top-14 z-20 mx-32 lg:mx-40">
-      <div className="border border-black h-9 w-9 rounded-full flex justify-center items-center bg-white opacity-50 hover:opacity-100 hover:cursor-pointer" onClick={getPhotoDocuments}>
+      <div
+        className="border border-black h-9 w-9 rounded-full flex justify-center items-center bg-white opacity-50 hover:opacity-100 hover:cursor-pointer"
+        onClick={pullPhotoDocuments}
+      >
         R
       </div>
 
