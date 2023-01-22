@@ -87,7 +87,6 @@ export const AuthContextProvider = ({ children }) => {
       await setDoc(docRef, {
         email: userAuthInfo.email,
         name: userAuthInfo.displayName,
-        posts: [],
       });
       console.log("doc created");
     }

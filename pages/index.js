@@ -22,7 +22,7 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ ssrPhotoDocs }) {
-  const { Modal, modalState } = useModal();
+  // const { Modal, modalState } = useModal();
   const { photoDocuments } = useFirestore();
 
   return (
@@ -37,7 +37,7 @@ export default function Home({ ssrPhotoDocs }) {
       {console.log("photo context: ", photoDocuments)}
 
       <main>
-        {modalState && <Modal />}
+        {/* {modalState && <Modal />} */}
         <ActionBar />
         <div
           className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`}

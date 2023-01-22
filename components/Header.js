@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/router";
 
 const Header = () => {
+
+  const router = useRouter()
   const { user, loginUser, logoutUser } = useAuth();
 
   return (
@@ -20,7 +23,9 @@ const Header = () => {
         </Link>
         <Link
           href={"/account"}
-          className="flex items-center justify-center h-full w-1/3 hover:bg-gray-100"
+          className={`flex items-center justify-center h-full w-1/3 hover:bg-gray-100 ${
+            !user ? "bg-gray-200 pointer-events-none" : ""
+          }`}
         >
           Account
         </Link>
@@ -28,11 +33,12 @@ const Header = () => {
           className="flex items-center justify-center h-full w-1/3 hover:bg-gray-100"
           onClick={() => {
             console.log("signin clicked");
-            if(user){
-              console.log("logging out user")
+            if (user) {
+              console.log("logging out user");
               logoutUser();
-            }else{
-              console.log("logging in user")
+              router.push("/")
+            } else {
+              console.log("logging in user");
               loginUser();
             }
           }}

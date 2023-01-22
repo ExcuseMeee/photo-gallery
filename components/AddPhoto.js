@@ -2,13 +2,13 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useState } from "react";
 import { db, storage } from "../firebaseConfig";
 import { useModal } from "../context/ModalContext";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import { useFirestore } from "../context/FirestoreContext";
 
 const AddPhoto = () => {
   const { closeModal } = useModal();
-  const { user } = useAuth();
+  const { user, userData } = useAuth();
   const { pullPhotoDocuments } = useFirestore();
 
   const [title, setTitle] = useState("");
@@ -48,15 +48,9 @@ const AddPhoto = () => {
     const photoDocRef = await addDoc(collectionRef, {
       title: title,
       imageUrl: downloadUrl,
+      postedBy: user.email,
     });
     pullPhotoDocuments();
-    updateUserDocument(photoDocRef);
-  }
-
-  function updateUserDocument(photoDocRef) {
-    const userDocRef = doc(db, "users", user.uid);
-    console.log(user, userDocRef, photoDocRef);
-    //TODO: update posts field in user doc
   }
 
   return (
