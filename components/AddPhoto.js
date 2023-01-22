@@ -54,7 +54,7 @@ const AddPhoto = () => {
   }
 
   return (
-    <div className="border h-full flex flex-col items-center">
+    <div className="h-full flex flex-col items-center">
       <div>Add Photo</div>
       <form className="flex flex-col" onSubmit={submitPhoto}>
         <input

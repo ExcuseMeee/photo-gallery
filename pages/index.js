@@ -1,9 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import Head from "next/head";
-import { useState } from "react";
 import ActionBar from "../components/ActionBar";
 import Photo from "../components/Photo";
-import { useModal } from "../context/ModalContext";
 import { db } from "../firebaseConfig";
 import { useFirestore } from "../context/FirestoreContext";
 
@@ -22,7 +20,6 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ ssrPhotoDocs }) {
-  // const { Modal, modalState } = useModal();
   const { photoDocuments } = useFirestore();
 
   return (
@@ -37,16 +34,15 @@ export default function Home({ ssrPhotoDocs }) {
       {console.log("photo context: ", photoDocuments)}
 
       <main>
-        {/* {modalState && <Modal />} */}
         <ActionBar />
         <div
           className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`}
         >
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} />
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
+          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
 
           {photoDocuments
             ? photoDocuments.map((document) => {
@@ -55,6 +51,7 @@ export default function Home({ ssrPhotoDocs }) {
                     key={document.id}
                     imageUrl={document.imageUrl}
                     title={document.title}
+                    postedBy={document.postedBy}
                   />
                 );
               })
@@ -64,6 +61,7 @@ export default function Home({ ssrPhotoDocs }) {
                     key={document.id}
                     imageUrl={document.imageUrl}
                     title={document.title + "ssr rendered"}
+                    postedBy={document.postedBy}
                   />
                 );
               })}

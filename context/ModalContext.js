@@ -8,14 +8,20 @@ export const ModalContextProvider = ({ children }) => {
   const [modalState, setModalState] = useState(false);
   const [modalType, setModalType] = useState("");
 
-  const [modalParameters, setModalParameters] = useState({})
+  const [modalParameters, setModalParameters] = useState({});
 
   function ModalContent() {
     switch (modalType) {
       case "add":
         return <AddPhoto />;
       case "photo":
-        return <ExpandedPhoto title={modalParameters.title} imageUrl={modalParameters.imageUrl} />
+        return (
+          <ExpandedPhoto
+            title={modalParameters.title}
+            imageUrl={modalParameters.imageUrl}
+            postedBy={modalParameters.postedBy}
+          />
+        );
 
       //Add more modal content below...
 
@@ -31,7 +37,7 @@ export const ModalContextProvider = ({ children }) => {
         onClick={closeModal}
       >
         <div
-          className="bg-white w-3/5 h-[85%] rounded-xl p-4 min-w-fit"
+          className="bg-white w-3/5 h-[85%] rounded-xl px-4 min-w-fit"
           onClick={(e) => e.stopPropagation()}
         >
           <ModalContent />
@@ -43,13 +49,13 @@ export const ModalContextProvider = ({ children }) => {
   function openModal(type, data = {}) {
     setModalType(type);
     setModalState(true);
-    setModalParameters(data)
+    setModalParameters(data);
   }
 
   function closeModal() {
     setModalState(false);
     setModalType("");
-    setModalParameters({})
+    setModalParameters({});
   }
 
   return (

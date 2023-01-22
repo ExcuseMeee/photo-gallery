@@ -8,13 +8,13 @@ const ActionBar = () => {
   return (
     <div className="flex items-center justify-center my-2 space-x-2 sticky top-14 z-20 mx-32 lg:mx-40">
       <div
-        className="border border-black h-9 w-9 rounded-full flex justify-center items-center bg-white opacity-50 hover:opacity-100 hover:cursor-pointer"
+        className="border border-black h-9 w-9 rounded-full flex justify-center items-center bg-white opacity-50 hover:opacity-100 hover:cursor-pointer hover:shadow-md"
         onClick={pullPhotoDocuments}
       >
         R
       </div>
 
-      <div className=" w-full flex justify-center items-center border border-black divide-x-2 divide-black rounded-full">
+      <div className=" w-full flex justify-center items-center border border-black divide-x-2 divide-black rounded-full hover:shadow-md focus-within:shadow-md">
         <input
           type="text"
           placeholder="Search Bar"

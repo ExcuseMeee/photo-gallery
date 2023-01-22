@@ -1,12 +1,13 @@
 import Image from "next/image";
 
-const ExpandedPhoto = ({ title, imageUrl }) => {
+const ExpandedPhoto = ({ title, imageUrl, postedBy }) => {
   return (
-    <div className="border border-black h-full flex flex-col items-center">
-      <div className="border w-full h-[10%] flex justify-center items-center">
-        {title}
+    <div className="h-full flex flex-col items-center">
+      <div className="w-full h-[10%] flex flex-col justify-center items-center">
+        <div className={`font-bold text-lg`}>{title}</div>
+        <div className={`text-sm font-medium text-gray-400`}>{postedBy}</div>
       </div>
-      <div className="border w-full h-[85%] flex items-center justify-center overflow-clip relative z-0">
+      <div className="border w-full h-[80%] flex items-center justify-center overflow-clip relative z-0">
         <Image
           src={imageUrl}
           alt=""
@@ -15,7 +16,7 @@ const ExpandedPhoto = ({ title, imageUrl }) => {
           style={{ objectFit: "contain" }}
         />
       </div>
-      <div className="border w-full h-[5%]">Bottom</div>
+      <div className="w-full h-[10%]">Bottom</div>
     </div>
   );
 };
