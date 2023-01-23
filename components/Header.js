@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 
 const Header = () => {
 
@@ -9,28 +10,28 @@ const Header = () => {
 
   return (
     <header className="bg-white flex items-center justify-between sticky top-0 shadow-md h-12 divide-x z-50">
-      <div className="hidden lg:flex items-center mx-5 h-full">
+      <div className="flex items-center mx-6 h-full">
         <Link href={"/"} className="flex items-center h-full">
-          Logo
+          <PhotoLibraryIcon fontSize="large" />
         </Link>
       </div>
-      <div className="flex justify-evenly w-1/3 h-full items-center divide-x">
+      <div className="flex justify-evenly w-1/3 h-full items-center divide-x min-w-fit">
         <Link
           href={"/"}
-          className="flex items-center justify-center h-full w-1/3 hover:bg-gray-100"
+          className="flex items-center justify-center h-full w-1/3 hover:bg-gray-100 min-w-fit"
         >
           Home
         </Link>
         <Link
           href={"/account"}
-          className={`flex items-center justify-center h-full w-1/3 hover:bg-gray-100 ${
+          className={`flex items-center justify-center h-full w-1/3 hover:bg-gray-100 min-w-fit ${
             !user ? "bg-gray-200 pointer-events-none" : ""
           }`}
         >
           Account
         </Link>
         <button
-          className="flex items-center justify-center h-full w-1/3 hover:bg-gray-100"
+          className="flex items-center justify-center h-full w-1/3 hover:bg-gray-100 min-w-fit"
           onClick={() => {
             console.log("signin clicked");
             if (user) {

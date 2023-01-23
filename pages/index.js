@@ -31,8 +31,6 @@ export default function Home({ ssrPhotoDocs }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {console.log("photo context: ", photoDocuments)}
-
       <main>
         <ActionBar />
         <div

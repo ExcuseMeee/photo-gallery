@@ -1,5 +1,6 @@
 import { useModal } from "../context/ModalContext";
 import { useFirestore } from "../context/FirestoreContext";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const ActionBar = () => {
   const { openModal } = useModal();
@@ -11,7 +12,7 @@ const ActionBar = () => {
         className="border border-black h-9 w-9 rounded-full flex justify-center items-center bg-white opacity-50 hover:opacity-100 hover:cursor-pointer hover:shadow-md"
         onClick={pullPhotoDocuments}
       >
-        R
+        <RefreshIcon />
       </div>
 
       <div className=" w-full flex justify-center items-center border border-black divide-x-2 divide-black rounded-full hover:shadow-md focus-within:shadow-md">
