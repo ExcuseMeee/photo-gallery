@@ -49,17 +49,19 @@ const Account = ({ ssrPhotoDocs }) => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <ActionBar />
-
-        <div className={`bg-white flex flex-col items-center py-5`}>
-          <div>
-            <Avatar
-              src={user.photoURL}
-              imgProps={{ referrerPolicy: "no-referrer" }}
-            />
+        {/* <ActionBar /> */}
+        <div className={`flex justify-center`}>
+          <div className={`bg-white flex flex-col items-center py-5 my-2 w-2/3`}>
+            <div>
+              <Avatar
+                src={user.photoURL}
+                imgProps={{ referrerPolicy: "no-referrer" }}
+              />
+            </div>
+            <div>{user.displayName}</div>
+            <div>{user.email}</div>
           </div>
-          <div>{user.displayName}</div>
-          <div>{user.email}</div>
+
         </div>
 
         {user.email}

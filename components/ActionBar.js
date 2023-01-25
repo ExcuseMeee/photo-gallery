@@ -1,6 +1,6 @@
 import { useModal } from "../context/ModalContext";
 import { useFirestore } from "../context/FirestoreContext";
-import RefreshIcon from '@mui/icons-material/Refresh';
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const ActionBar = () => {
   const { openModal } = useModal();

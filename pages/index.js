@@ -4,6 +4,7 @@ import ActionBar from "../components/ActionBar";
 import Photo from "../components/Photo";
 import { db } from "../firebaseConfig";
 import { useFirestore } from "../context/FirestoreContext";
+import PhotoGallery from "../components/PhotoGallery";
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -33,37 +34,11 @@ export default function Home({ ssrPhotoDocs }) {
 
       <main>
         <ActionBar />
-        <div
-          className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`}
-        >
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
-          <Photo imageUrl={"/space-img.jpg"} title={"Static Placeholder"} postedBy={"No poster"}/>
-
-          {photoDocuments
-            ? photoDocuments.map((document) => {
-                return (
-                  <Photo
-                    key={document.id}
-                    imageUrl={document.imageUrl}
-                    title={document.title}
-                    postedBy={document.postedBy}
-                  />
-                );
-              })
-            : ssrPhotoDocs.map((document) => {
-                return (
-                  <Photo
-                    key={document.id}
-                    imageUrl={document.imageUrl}
-                    title={document.title + "ssr rendered"}
-                    postedBy={document.postedBy}
-                  />
-                );
-              })}
-        </div>
+        {photoDocuments ? (
+          <PhotoGallery photoDocuments={photoDocuments} />
+        ) : (
+          <PhotoGallery photoDocuments={ssrPhotoDocs} />
+        )}
       </main>
     </div>
   );

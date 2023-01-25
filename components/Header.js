@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 
 const Header = () => {
-
-  const router = useRouter()
+  const router = useRouter();
   const { user, loginUser, logoutUser } = useAuth();
 
   return (
@@ -37,7 +36,7 @@ const Header = () => {
             if (user) {
               console.log("logging out user");
               logoutUser();
-              router.push("/")
+              router.push("/");
             } else {
               console.log("logging in user");
               loginUser();
