@@ -1,10 +1,10 @@
 import { collection, getDocs } from "firebase/firestore";
 import Head from "next/head";
 import ActionBar from "../components/ActionBar";
-import Photo from "../components/Photo";
 import { db } from "../firebaseConfig";
 import { useFirestore } from "../context/FirestoreContext";
 import PhotoGallery from "../components/PhotoGallery";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -23,6 +23,13 @@ export async function getServerSideProps() {
 export default function Home({ ssrPhotoDocs }) {
   const { photoDocuments } = useFirestore();
 
+  const [filteredDocuments, setFilteredDocuments] = useState(ssrPhotoDocs);
+
+  useEffect(() => {
+    if (!photoDocuments) return;
+    setFilteredDocuments(photoDocuments);
+  }, [photoDocuments]);
+
   return (
     <div>
       <Head>
@@ -33,12 +40,13 @@ export default function Home({ ssrPhotoDocs }) {
       </Head>
 
       <main>
-        <ActionBar />
-        {photoDocuments ? (
+        <ActionBar filteredDocuments={filteredDocuments} setFilteredDocuments={setFilteredDocuments} />
+        {/* {photoDocuments ? (
           <PhotoGallery photoDocuments={photoDocuments} />
         ) : (
           <PhotoGallery photoDocuments={ssrPhotoDocs} />
-        )}
+        )} */}
+        <PhotoGallery photoDocuments={filteredDocuments} />
       </main>
     </div>
   );

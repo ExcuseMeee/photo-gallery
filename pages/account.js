@@ -3,7 +3,6 @@ import { useAuth } from "../context/AuthContext";
 import { db } from "../firebaseConfig";
 import { useFirestore } from "../context/FirestoreContext";
 import { useEffect, useState } from "react";
-import ActionBar from "../components/ActionBar";
 import Head from "next/head";
 import Avatar from "@mui/material/Avatar";
 
@@ -49,7 +48,6 @@ const Account = ({ ssrPhotoDocs }) => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        {/* <ActionBar /> */}
         <div className={`flex justify-center`}>
           <div className={`bg-white flex flex-col items-center py-5 my-2 w-2/3`}>
             <div>

@@ -6,6 +6,21 @@ const ActionBar = () => {
   const { openModal } = useModal();
   const { pullPhotoDocuments } = useFirestore();
 
+  function filter(e){
+    const query = e.target.value.toLowerCase().trim()
+    const photoComponents = document.querySelectorAll(".photoContainer");
+    photoComponents.forEach((photo)=>{
+      const title = photo.querySelector(".photoTitle").innerHTML
+      if(title.toLowerCase().includes(query)){
+        photo.style.display = "flex";
+      }else{
+        photo.style.display = "none";
+
+      }
+    })
+    
+  }
+
   return (
     <div className="flex items-center justify-center my-2 space-x-2 sticky top-14 z-20 mx-32 lg:mx-40">
       <div
@@ -20,6 +35,7 @@ const ActionBar = () => {
           type="text"
           placeholder="Search Bar"
           className="w-3/4 focus:outline-none rounded-l-full h-8 pl-2 flex justify-center items-center opacity-50 hover:opacity-100 focus:opacity-100"
+          onChange={filter}
         />
 
         <div
