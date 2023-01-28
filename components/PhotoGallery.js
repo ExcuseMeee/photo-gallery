@@ -1,4 +1,4 @@
-import Photo from "./Photo";
+import PhotoCard from "./PhotoCard";
 
 const PhotoGallery = ({ photoDocuments }) => {
   return (
@@ -7,7 +7,7 @@ const PhotoGallery = ({ photoDocuments }) => {
     >
       {photoDocuments.map((document) => {
         return (
-          <Photo
+          <PhotoCard
             key={document.id}
             imageUrl={document.imageUrl}
             title={document.title}

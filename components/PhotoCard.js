@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useModal } from "../context/ModalContext";
 
-const Photo = ({ imageUrl, title, postedBy }) => {
+const PhotoCard = ({ imageUrl, title, postedBy }) => {
   const { openModal } = useModal();
 
   function handler() {
@@ -28,4 +28,4 @@ const Photo = ({ imageUrl, title, postedBy }) => {
   );
 };
 
-export default Photo;
+export default PhotoCard;

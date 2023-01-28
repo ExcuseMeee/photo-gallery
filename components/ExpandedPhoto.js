@@ -1,6 +1,10 @@
 import Image from "next/image";
+import { useAuth } from "../context/AuthContext";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ExpandedPhoto = ({ title, imageUrl, postedBy }) => {
+  const { user } = useAuth();
+
   return (
     <div className="h-full flex flex-col items-center">
       <div className="w-full h-[10%] flex flex-col justify-center items-center">
@@ -16,7 +20,16 @@ const ExpandedPhoto = ({ title, imageUrl, postedBy }) => {
           style={{ objectFit: "contain" }}
         />
       </div>
-      <div className="w-full h-[10%]">Bottom</div>
+      <div className="w-full h-[10%] flex justify-center items-center border">
+        {user && user.email == postedBy ? (
+          <div className="flex hover:text-red-700 hover:cursor-pointer">
+            <DeleteIcon />
+            <p>Delete</p>
+          </div>
+        ) : (
+          <p>Not posted by user</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -5,6 +5,8 @@ import { useFirestore } from "../context/FirestoreContext";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import Avatar from "@mui/material/Avatar";
+import PhotoGallery from "../components/PhotoGallery";
+import ActionBar from "../components/ActionBar"
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -49,7 +51,9 @@ const Account = ({ ssrPhotoDocs }) => {
         </Head>
 
         <div className={`flex justify-center`}>
-          <div className={`bg-white flex flex-col items-center py-5 my-2 w-2/3`}>
+          <div
+            className={`bg-white flex flex-col items-center py-5 my-2 w-2/3`}
+          >
             <div>
               <Avatar
                 src={user.photoURL}
@@ -59,49 +63,13 @@ const Account = ({ ssrPhotoDocs }) => {
             <div>{user.displayName}</div>
             <div>{user.email}</div>
           </div>
-
         </div>
 
-        {user.email}
-        {filteredDocuments.map((doc) => (
-          <div key={doc.id}>{doc.title}</div>
-        ))}
+        <ActionBar />
 
-        <>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <p>e</p>
-        </>
+        <div>
+          <PhotoGallery photoDocuments={filteredDocuments} />
+        </div>
       </main>
     )
   );

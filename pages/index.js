@@ -23,13 +23,6 @@ export async function getServerSideProps() {
 export default function Home({ ssrPhotoDocs }) {
   const { photoDocuments } = useFirestore();
 
-  const [filteredDocuments, setFilteredDocuments] = useState(ssrPhotoDocs);
-
-  useEffect(() => {
-    if (!photoDocuments) return;
-    setFilteredDocuments(photoDocuments);
-  }, [photoDocuments]);
-
   return (
     <div>
       <Head>
@@ -40,13 +33,12 @@ export default function Home({ ssrPhotoDocs }) {
       </Head>
 
       <main>
-        <ActionBar filteredDocuments={filteredDocuments} setFilteredDocuments={setFilteredDocuments} />
-        {/* {photoDocuments ? (
+        <ActionBar />
+        {photoDocuments ? (
           <PhotoGallery photoDocuments={photoDocuments} />
         ) : (
           <PhotoGallery photoDocuments={ssrPhotoDocs} />
-        )} */}
-        <PhotoGallery photoDocuments={filteredDocuments} />
+        )}
       </main>
     </div>
   );

@@ -1,15 +1,12 @@
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useState } from "react";
-import { db, storage } from "../firebaseConfig";
 import { useModal } from "../context/ModalContext";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import { useFirestore } from "../context/FirestoreContext";
 
 const AddPhoto = () => {
   const { closeModal } = useModal();
   const { user, userData } = useAuth();
-  const { pullPhotoDocuments } = useFirestore();
+  const { pullPhotoDocuments, addPhoto } = useFirestore();
 
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
@@ -21,36 +18,16 @@ const AddPhoto = () => {
     setFile(selected);
   }
 
-  function submitPhoto(e) {
+  async function submitPhoto(e) {
     e.preventDefault();
-    console.log("upload clicked");
     if (!user || !file) {
       alert("Not signed in or no file");
       return;
     }
     console.log("File name to be uploaded: ", file.name);
-    uploadFileToStorage();
-  }
-
-  function uploadFileToStorage() {
-    const imageRef = ref(storage, `photos/${file.name}`);
-    uploadBytes(imageRef, file).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((downloadUrl) => {
-        console.log("Success: ", downloadUrl);
-        createDocument(downloadUrl);
-        closeModal();
-      });
-    });
-  }
-
-  async function createDocument(downloadUrl) {
-    const collectionRef = collection(db, "photos");
-    const photoDocRef = await addDoc(collectionRef, {
-      title: title,
-      imageUrl: downloadUrl,
-      postedBy: user.email,
-    });
+    await addPhoto(file, title, user.email);
     pullPhotoDocuments();
+    closeModal();
   }
 
   return (
