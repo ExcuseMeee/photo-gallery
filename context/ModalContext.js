@@ -17,6 +17,7 @@ export const ModalContextProvider = ({ children }) => {
       case "photo":
         return (
           <ExpandedPhoto
+            id={modalParameters.id}
             title={modalParameters.title}
             imageUrl={modalParameters.imageUrl}
             postedBy={modalParameters.postedBy}

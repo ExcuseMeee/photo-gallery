@@ -1,7 +1,18 @@
 import { createContext, useContext, useState } from "react";
 import { db, storage } from "../firebaseConfig";
-import { getDocs, collection, addDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDocs,
+  collection,
+  addDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 
 const FirestoreContext = createContext();
 
@@ -34,12 +45,21 @@ export const FirestoreContextProvider = ({ children }) => {
       title: title,
       imageUrl: downloadUrl,
       postedBy: postedBy,
-    })
+    });
+  }
+
+  async function deletePhoto(docId, imageUrl) {
+    //delete storage file
+    const imageRef = ref(storage, imageUrl);
+    await deleteObject(imageRef);
+    //then delete document
+    const photoDocRef = doc(db, "photos", docId);
+    await deleteDoc(photoDocRef);
   }
 
   return (
     <FirestoreContext.Provider
-      value={{ pullPhotoDocuments, photoDocuments, addPhoto }}
+      value={{ pullPhotoDocuments, photoDocuments, addPhoto, deletePhoto }}
     >
       {children}
     </FirestoreContext.Provider>

@@ -9,6 +9,7 @@ const PhotoGallery = ({ photoDocuments }) => {
         return (
           <PhotoCard
             key={document.id}
+            id={document.id}
             imageUrl={document.imageUrl}
             title={document.title}
             postedBy={document.postedBy}

@@ -1,9 +1,20 @@
 import Image from "next/image";
 import { useAuth } from "../context/AuthContext";
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useFirestore } from "../context/FirestoreContext";
+import { useModal } from "../context/ModalContext";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const ExpandedPhoto = ({ title, imageUrl, postedBy }) => {
+const ExpandedPhoto = ({ id, title, imageUrl, postedBy }) => {
   const { user } = useAuth();
+  const { deletePhoto, pullPhotoDocuments } = useFirestore();
+  const { closeModal } = useModal();
+
+  async function handler() {
+    console.log("delete btn clicked");
+    await deletePhoto(id, imageUrl);
+    await pullPhotoDocuments();
+    closeModal();
+  }
 
   return (
     <div className="h-full flex flex-col items-center">
@@ -20,9 +31,12 @@ const ExpandedPhoto = ({ title, imageUrl, postedBy }) => {
           style={{ objectFit: "contain" }}
         />
       </div>
-      <div className="w-full h-[10%] flex justify-center items-center border">
+      <div className="w-full h-[10%] flex justify-center items-center">
         {user && user.email == postedBy ? (
-          <div className="flex hover:text-red-700 hover:cursor-pointer">
+          <div
+            className="flex hover:text-red-600 hover:cursor-pointer"
+            onClick={handler}
+          >
             <DeleteIcon />
             <p>Delete</p>
           </div>

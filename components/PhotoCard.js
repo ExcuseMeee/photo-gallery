@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { useModal } from "../context/ModalContext";
 
-const PhotoCard = ({ imageUrl, title, postedBy }) => {
+const PhotoCard = ({ id, imageUrl, title, postedBy }) => {
   const { openModal } = useModal();
 
   function handler() {
     console.log("photo clicked");
-    openModal("photo", { imageUrl, title, postedBy });
+    openModal("photo", { id, imageUrl, title, postedBy });
   }
 
   return (
