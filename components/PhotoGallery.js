@@ -6,15 +6,7 @@ const PhotoGallery = ({ photoDocuments }) => {
       className={`flex flex-col lg:flex-row flex-wrap justify-evenly items-center`}
     >
       {photoDocuments.map((document) => {
-        return (
-          <PhotoCard
-            key={document.id}
-            id={document.id}
-            imageUrl={document.imageUrl}
-            title={document.title}
-            postedBy={document.postedBy}
-          />
-        );
+        return <PhotoCard key={document.id} photoDocument={document} />;
       })}
     </div>
   );

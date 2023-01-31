@@ -49,12 +49,20 @@ export const FirestoreContextProvider = ({ children }) => {
   }
 
   async function deletePhoto(docId, imageUrl) {
-    //delete storage file
-    const imageRef = ref(storage, imageUrl);
-    await deleteObject(imageRef);
-    //then delete document
-    const photoDocRef = doc(db, "photos", docId);
-    await deleteDoc(photoDocRef);
+    try {
+      //delete storage file
+      const imageRef = ref(storage, imageUrl);
+      await deleteObject(imageRef);
+      try {
+        //then delete document
+        const photoDocRef = doc(db, "photos", docId);
+        await deleteDoc(photoDocRef);
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
