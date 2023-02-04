@@ -5,7 +5,6 @@ const PhotoCard = ({ photoDocument }) => {
   const { openModal } = useModal();
 
   function handler() {
-    console.log("photo clicked");
     openModal("photo", { photoDocument });
   }
 

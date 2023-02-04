@@ -4,17 +4,39 @@ import { useFirestore } from "../context/FirestoreContext";
 import { useModal } from "../context/ModalContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { useEffect, useState } from "react";
 
 const ExpandedPhoto = ({ photoDocument }) => {
-  const { user } = useAuth();
-  const { deletePhoto, pullPhotoDocuments } = useFirestore();
+  const { user, userData } = useAuth();
+  const { deletePhoto, pullPhotoDocuments, likePhoto, dislikePhoto } = useFirestore();
   const { closeModal } = useModal();
 
+  const [liked, setLiked] = useState(
+    userData ? userData.likedPhotos.includes(photoDocument.id) : false
+  );
+
+  useEffect(() => {
+    if (!user) return;
+
+    setLiked(userData.likedPhotos.includes(photoDocument.id));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
+
   async function deleteHandler() {
-    console.log("delete btn clicked");
     await deletePhoto(photoDocument.id, photoDocument.imageUrl);
     await pullPhotoDocuments();
     closeModal();
+  }
+
+  async function likeHandler() {
+    if (!user) return;
+
+    if (liked) {
+      await dislikePhoto(photoDocument.id, user.uid);
+    } else {
+      await likePhoto(photoDocument.id, user.uid);
+    }
   }
 
   return (
@@ -36,17 +58,24 @@ const ExpandedPhoto = ({ photoDocument }) => {
       </div>
       <div className="w-full h-[10%] flex justify-center items-center">
         {user && user.email == photoDocument.postedBy ? (
+          // user logged in AND posted this image
           <div
-            className="flex hover:text-red-600 hover:cursor-pointer"
+            className={`flex hover:text-red-600 hover:cursor-pointer p-2 rounded-lg hover:bg-gray-100 hover:shadow-sm`}
             onClick={deleteHandler}
           >
             <DeleteIcon />
             <p>Delete</p>
           </div>
         ) : (
-          <div className={`flex space-x-1 hover:text-blue-500 hover:cursor-pointer `}>
+          // user logged out OR user did not post this image
+          <div
+            className={`flex space-x-1 hover:cursor-pointer p-2 rounded-lg hover:bg-gray-100 hover:shadow-sm ${
+              liked ? "text-blue-500 " : ""
+            }`}
+            onClick={user ? likeHandler : () => setLiked(!liked)}
+          >
             <ThumbUpIcon />
-            <p>Like</p>
+            {liked ? <p>Liked</p> : <p>Like</p>}
           </div>
         )}
       </div>

@@ -6,6 +6,9 @@ import {
   addDoc,
   doc,
   deleteDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import {
   deleteObject,
@@ -48,14 +51,15 @@ export const FirestoreContextProvider = ({ children }) => {
     });
   }
 
-  async function deletePhoto(docId, imageUrl) {
+  //TODO: remove photoDocId from all likedPhotos fields
+  async function deletePhoto(photoDocId, imageUrl) {
     try {
       //delete storage file
       const imageRef = ref(storage, imageUrl);
       await deleteObject(imageRef);
       try {
         //then delete document
-        const photoDocRef = doc(db, "photos", docId);
+        const photoDocRef = doc(db, "photos", photoDocId);
         await deleteDoc(photoDocRef);
       } catch (error) {
         console.log(error);
@@ -65,9 +69,32 @@ export const FirestoreContextProvider = ({ children }) => {
     }
   }
 
+  async function likePhoto(photoDocId, uid){
+    const userDocRef = doc(db, "users", uid)
+    try{
+      await updateDoc(userDocRef, {
+        likedPhotos: arrayUnion(photoDocId)
+      })
+    }catch(error){
+      console.log(error)
+    }
+  }
+  
+  async function dislikePhoto(photoDocId, uid){
+    const userDocRef = doc(db, "users", uid)
+    try{
+      await updateDoc(userDocRef, {
+        likedPhotos: arrayRemove(photoDocId)
+      })
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+
   return (
     <FirestoreContext.Provider
-      value={{ pullPhotoDocuments, photoDocuments, addPhoto, deletePhoto }}
+      value={{ pullPhotoDocuments, photoDocuments, addPhoto, deletePhoto, likePhoto, dislikePhoto}}
     >
       {children}
     </FirestoreContext.Provider>

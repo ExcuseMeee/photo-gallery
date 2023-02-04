@@ -37,7 +37,7 @@ export const AuthContextProvider = ({ children }) => {
         unsubscribe();
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function loginUser() {
@@ -68,7 +68,6 @@ export const AuthContextProvider = ({ children }) => {
     const unsub = onSnapshot(
       docRef,
       (doc) => {
-        console.log("watcher: doc data", doc.data());
         setUserData(doc.data());
       },
       (error) => {
@@ -87,6 +86,7 @@ export const AuthContextProvider = ({ children }) => {
       await setDoc(docRef, {
         email: userAuthInfo.email,
         name: userAuthInfo.displayName,
+        likedPhotos: [],
       });
       console.log("doc created");
     }
