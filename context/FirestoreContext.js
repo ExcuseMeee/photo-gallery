@@ -9,6 +9,8 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  query,
+  where,
 } from "firebase/firestore";
 import {
   deleteObject,
@@ -20,13 +22,14 @@ import {
 const FirestoreContext = createContext();
 
 export const FirestoreContextProvider = ({ children }) => {
-  const colRef = collection(db, "photos");
+  const photosColRef = collection(db, "photos");
+  const usersColRef = collection(db, "users");
 
   const [photoDocuments, setPhotoDocuments] = useState(null);
 
   async function pullPhotoDocuments() {
     try {
-      const data = await getDocs(colRef);
+      const data = await getDocs(photosColRef);
       const photoDocs = data.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
@@ -44,23 +47,39 @@ export const FirestoreContextProvider = ({ children }) => {
     const downloadUrl = await getDownloadURL(uploadResult.ref);
 
     //create photodoc
-    const photoDocRef = await addDoc(colRef, {
+    const photoDocRef = await addDoc(photosColRef, {
       title: title,
       imageUrl: downloadUrl,
       postedBy: postedBy,
     });
   }
 
-  //TODO: remove photoDocId from all likedPhotos fields
   async function deletePhoto(photoDocId, imageUrl) {
+    // first, remove photo from all users
     try {
-      //delete storage file
-      const imageRef = ref(storage, imageUrl);
-      await deleteObject(imageRef);
+      // query all users who liked this photo
+      const likedPhotoQuery = query(
+        usersColRef,
+        where("likedPhotos", "array-contains", photoDocId)
+      );
+      const queriedUsers = await getDocs(likedPhotoQuery);
+      // delete the photo from likedPhotos field for all queried users
+      queriedUsers.forEach((userDoc) => {
+        dislikePhoto(photoDocId, userDoc.id);
+      });
+
+      // then, delete photo
       try {
-        //then delete document
-        const photoDocRef = doc(db, "photos", photoDocId);
-        await deleteDoc(photoDocRef);
+        // delete storage file
+        const imageRef = ref(storage, imageUrl);
+        await deleteObject(imageRef);
+        try {
+          // delete document
+          const photoDocRef = doc(db, "photos", photoDocId);
+          await deleteDoc(photoDocRef);
+        } catch (error) {
+          console.log(error);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -69,32 +88,38 @@ export const FirestoreContextProvider = ({ children }) => {
     }
   }
 
-  async function likePhoto(photoDocId, uid){
-    const userDocRef = doc(db, "users", uid)
-    try{
+  async function likePhoto(photoDocId, uid) {
+    const userDocRef = doc(db, "users", uid);
+    try {
       await updateDoc(userDocRef, {
-        likedPhotos: arrayUnion(photoDocId)
-      })
-    }catch(error){
-      console.log(error)
-    }
-  }
-  
-  async function dislikePhoto(photoDocId, uid){
-    const userDocRef = doc(db, "users", uid)
-    try{
-      await updateDoc(userDocRef, {
-        likedPhotos: arrayRemove(photoDocId)
-      })
-    }catch(error){
-      console.log(error)
+        likedPhotos: arrayUnion(photoDocId),
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
 
+  async function dislikePhoto(photoDocId, uid) {
+    const userDocRef = doc(db, "users", uid);
+    try {
+      await updateDoc(userDocRef, {
+        likedPhotos: arrayRemove(photoDocId),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <FirestoreContext.Provider
-      value={{ pullPhotoDocuments, photoDocuments, addPhoto, deletePhoto, likePhoto, dislikePhoto}}
+      value={{
+        pullPhotoDocuments,
+        photoDocuments,
+        addPhoto,
+        deletePhoto,
+        likePhoto,
+        dislikePhoto,
+      }}
     >
       {children}
     </FirestoreContext.Provider>
