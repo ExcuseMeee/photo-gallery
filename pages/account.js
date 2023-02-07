@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Avatar from "@mui/material/Avatar";
 import PhotoGallery from "../components/PhotoGallery";
-import ActionBar from "../components/ActionBar"
+import ActionBar from "../components/ActionBar";
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -27,6 +27,7 @@ const Account = ({ ssrPhotoDocs }) => {
   const { photoDocuments } = useFirestore();
 
   const [filteredDocuments, setFilteredDocuments] = useState([]);
+  const [likedPhotos, setLikedPhotos] = useState([]);
 
   useEffect(() => {
     if (!user) return;
@@ -40,8 +41,21 @@ const Account = ({ ssrPhotoDocs }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photoDocuments, user]);
 
+  useEffect(() => {
+    if (!userData) return;
+    photoDocuments
+      ? setLikedPhotos(
+          photoDocuments.filter((doc) => userData.likedPhotos.includes(doc.id))
+        )
+      : setLikedPhotos(
+          ssrPhotoDocs.filter((doc) => userData.likedPhotos.includes(doc.id))
+        );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
+
   return (
-    user && (
+    user &&
+    userData && (
       <main>
         <Head>
           <title>Photo Gallery | Account</title>
@@ -69,6 +83,7 @@ const Account = ({ ssrPhotoDocs }) => {
 
         <div>
           <PhotoGallery photoDocuments={filteredDocuments} />
+          <PhotoGallery photoDocuments={likedPhotos} />
         </div>
       </main>
     )
