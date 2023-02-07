@@ -31,6 +31,7 @@ const Account = ({ ssrPhotoDocs }) => {
 
   useEffect(() => {
     if (!user) return;
+    // if photoDocuments is null use ssrPhotoDocs, else use photoDocuments
     photoDocuments
       ? setFilteredDocuments(
           photoDocuments.filter((doc) => doc.postedBy == user.email)
@@ -82,8 +83,18 @@ const Account = ({ ssrPhotoDocs }) => {
         <ActionBar />
 
         <div>
-          <PhotoGallery photoDocuments={filteredDocuments} />
-          <PhotoGallery photoDocuments={likedPhotos} />
+          <div>
+            My Photos
+            <PhotoGallery photoDocuments={filteredDocuments} />
+          </div>
+          {likedPhotos.length ? (
+            <div>
+              LikedPhotos
+              <PhotoGallery photoDocuments={likedPhotos} />
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </main>
     )
