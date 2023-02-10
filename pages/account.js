@@ -7,6 +7,8 @@ import Head from "next/head";
 import Avatar from "@mui/material/Avatar";
 import PhotoGallery from "../components/PhotoGallery";
 import ActionBar from "../components/ActionBar";
+import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -67,7 +69,7 @@ const Account = ({ ssrPhotoDocs }) => {
 
         <div className={`flex justify-center`}>
           <div
-            className={`bg-white flex flex-col items-center py-5 my-2 w-2/3`}
+            className={`bg-white flex flex-col items-center py-5 my-2 w-2/3 rounded-lg shadow-md`}
           >
             <div>
               <Avatar
@@ -75,21 +77,41 @@ const Account = ({ ssrPhotoDocs }) => {
                 imgProps={{ referrerPolicy: "no-referrer" }}
               />
             </div>
-            <div>{user.displayName}</div>
-            <div>{user.email}</div>
+            <div className={`flex flex-col items-center space-y-2`}>
+              <div className={`flex flex-col items-center`}>
+                <div className={`font-medium text-2xl`}>{user.displayName}</div>
+                <div className={`text-xs font-medium `}>{user.email}</div>
+              </div>
+              <div className={`flex flex-col items-center`}>
+                <div className={`flex space-x-1.5`}>
+                  <PhotoCameraRoundedIcon />
+                  <div>Photos Posted: {filteredDocuments.length} </div>
+                </div>
+                <div className={`flex space-x-1.5`}>
+                  <ThumbUpIcon />
+                  <div>Liked Photos: {likedPhotos.length} </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <ActionBar />
-
         <div>
           <div>
-            My Photos
+            <div className="flex justify-center my-3">
+              <p className="font-medium border-b-2 border-b-black ">
+                My Photos
+              </p>
+            </div>
             <PhotoGallery photoDocuments={filteredDocuments} />
           </div>
           {likedPhotos.length ? (
             <div>
-              LikedPhotos
+              <div className="flex justify-center my-3">
+                <p className="font-medium border-b-2 border-b-black px-6">
+                  Liked Photos
+                </p>
+              </div>
               <PhotoGallery photoDocuments={likedPhotos} />
             </div>
           ) : (

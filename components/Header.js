@@ -10,8 +10,9 @@ const Header = () => {
   return (
     <header className="bg-white flex items-center justify-between sticky top-0 shadow-md h-12 divide-x z-50">
       <div className="flex items-center mx-6 h-full">
-        <Link href={"/"} className="flex items-center h-full">
+        <Link href={"/"} className="flex items-center h-full space-x-1">
           <PhotoLibraryIcon fontSize="large" />
+          <p>Photo Gallery</p>
         </Link>
       </div>
       <div className="flex justify-evenly w-1/3 h-full items-center divide-x min-w-fit">
