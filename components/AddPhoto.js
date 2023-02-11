@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useModal } from "../context/ModalContext";
 import { useAuth } from "../context/AuthContext";
 import { useFirestore } from "../context/FirestoreContext";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 
 const AddPhoto = () => {
   const { closeModal } = useModal();
@@ -32,23 +33,38 @@ const AddPhoto = () => {
 
   return (
     <div className="h-full flex flex-col items-center">
-      <div>Add Photo</div>
-      <form className="flex flex-col" onSubmit={submitPhoto}>
+      <div className="flex items-center justify-center w-full h-[10%]">
+        <p className="font-bold text-lg ">Add Photo</p>
+      </div>
+      <form
+        className="flex flex-col w-full h-[80%] items-center space-y-3"
+        onSubmit={submitPhoto}
+      >
         <input
           required
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
+          className="border w-1/2"
         />
         <input
           required
           type="file"
           onChange={handleChange}
           accept={"image/*"}
+          className="border w-1/2"
         />
-        <button type="submit">Upload</button>
+        <button type="submit" className="border ">
+          Upload
+        </button>
       </form>
+      <div className="w-full h-[10%] flex justify-center items-center">
+        <div className="flex space-x-1 hover:cursor-pointer p-2 rounded-lg hover:bg-gray-100 hover:shadow-sm hover:text-red-600" onClick={closeModal}>
+          <CancelRoundedIcon />
+          <p>Cancel</p>
+        </div>
+      </div>
     </div>
   );
 };

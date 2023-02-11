@@ -1,6 +1,7 @@
 import { useModal } from "../context/ModalContext";
 import { useFirestore } from "../context/FirestoreContext";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 
 const ActionBar = () => {
   const { openModal } = useModal();
@@ -39,12 +40,13 @@ const ActionBar = () => {
         />
 
         <div
-          className="w-1/4 h-8 flex justify-center items-center bg-white rounded-r-full opacity-75 hover:opacity-100 hover:cursor-pointer"
+          className="w-1/4 h-8 flex justify-center items-center bg-white rounded-r-full opacity-75 hover:opacity-100 hover:cursor-pointer space-x-1"
           onClick={() => {
             openModal("add");
           }}
         >
-          Add Photo
+          <AddPhotoAlternateOutlinedIcon />
+          <p>Add Photo</p>
         </div>
       </div>
     </div>
