@@ -3,9 +3,28 @@ import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 
-const Header = () => {
+const Header = ({ createToast }) => {
   const router = useRouter();
   const { user, loginUser, logoutUser } = useAuth();
+
+  async function loginHandler() {
+    if (user) {
+      try {
+        await logoutUser();
+        router.push("/");
+        createToast("success", "Logout Successful");
+      } catch (error) {
+        createToast("error", "Logout Failed");
+      }
+    } else {
+      try {
+        await loginUser();
+        createToast("success", "Login Successful");
+      } catch (error) {
+        createToast("error", "Login Failed");
+      }
+    }
+  }
 
   return (
     <header className="bg-white flex items-center justify-between sticky top-0 shadow-md h-12 divide-x z-50">
@@ -32,17 +51,7 @@ const Header = () => {
         </Link>
         <button
           className="flex items-center justify-center h-full w-1/3 hover:bg-gray-100 min-w-fit"
-          onClick={() => {
-            console.log("signin clicked");
-            if (user) {
-              console.log("logging out user");
-              logoutUser();
-              router.push("/");
-            } else {
-              console.log("logging in user");
-              loginUser();
-            }
-          }}
+          onClick={loginHandler}
         >
           {user ? <p>Logout</p> : <p>Login</p>}
         </button>

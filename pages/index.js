@@ -4,7 +4,9 @@ import ActionBar from "../components/ActionBar";
 import { db } from "../firebaseConfig";
 import { useFirestore } from "../context/FirestoreContext";
 import PhotoGallery from "../components/PhotoGallery";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -23,6 +25,16 @@ export async function getServerSideProps() {
 export default function Home({ ssrPhotoDocs }) {
   const { photoDocuments } = useFirestore();
 
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState("")
+  const [severity, setSeverity] = useState("success")
+
+  function createToast(severity, message){
+    setSeverity(severity)
+    setMessage(message)
+    setOpen(true)
+  }
+
   return (
     <div>
       <Head>
@@ -33,12 +45,17 @@ export default function Home({ ssrPhotoDocs }) {
       </Head>
 
       <main>
-        <ActionBar />
+        <ActionBar createToast={createToast} />
         {photoDocuments ? (
-          <PhotoGallery photoDocuments={photoDocuments} />
+          <PhotoGallery photoDocuments={photoDocuments} createToast={createToast} />
         ) : (
-          <PhotoGallery photoDocuments={ssrPhotoDocs} />
+          <PhotoGallery photoDocuments={ssrPhotoDocs} createToast={createToast} />
         )}
+        <Snackbar open={open} onClose={()=> setOpen(false)} autoHideDuration={3000} >
+        <Alert severity={severity} variant="filled" >
+          {message}
+        </Alert>
+      </Snackbar>
       </main>
     </div>
   );

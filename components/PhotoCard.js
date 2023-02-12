@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { useModal } from "../context/ModalContext";
 
-const PhotoCard = ({ photoDocument }) => {
+const PhotoCard = ({ photoDocument, createToast }) => {
   const { openModal } = useModal();
 
   function handler() {
-    openModal("photo", { photoDocument });
+    openModal("photo", { photoDocument }, { createToast });
   }
 
   return (

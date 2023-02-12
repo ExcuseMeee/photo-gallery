@@ -41,17 +41,22 @@ export const FirestoreContextProvider = ({ children }) => {
   }
 
   async function addPhoto(imageFile, title, postedBy) {
-    //upload file to storage
-    const imageRef = ref(storage, `photos/${imageFile.name}`);
-    const uploadResult = await uploadBytes(imageRef, imageFile);
-    const downloadUrl = await getDownloadURL(uploadResult.ref);
+    try {
+      //upload file to storage
+      const imageRef = ref(storage, `photos/${imageFile.name}`);
+      const uploadResult = await uploadBytes(imageRef, imageFile);
+      const downloadUrl = await getDownloadURL(uploadResult.ref);
 
-    //create photodoc
-    const photoDocRef = await addDoc(photosColRef, {
-      title: title,
-      imageUrl: downloadUrl,
-      postedBy: postedBy,
-    });
+      //create photodoc
+      const photoDocRef = await addDoc(photosColRef, {
+        title: title,
+        imageUrl: downloadUrl,
+        postedBy: postedBy,
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 
   async function deletePhoto(photoDocId, imageUrl) {
@@ -73,18 +78,16 @@ export const FirestoreContextProvider = ({ children }) => {
         // delete storage file
         const imageRef = ref(storage, imageUrl);
         await deleteObject(imageRef);
-        try {
-          // delete document
-          const photoDocRef = doc(db, "photos", photoDocId);
-          await deleteDoc(photoDocRef);
-        } catch (error) {
-          console.log(error);
-        }
+        // delete document
+        const photoDocRef = doc(db, "photos", photoDocId);
+        await deleteDoc(photoDocRef);
       } catch (error) {
         console.log(error);
+        throw error;
       }
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 

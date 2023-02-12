@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Avatar from "@mui/material/Avatar";
 import PhotoGallery from "../components/PhotoGallery";
-import ActionBar from "../components/ActionBar";
 import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -30,6 +31,16 @@ const Account = ({ ssrPhotoDocs }) => {
 
   const [filteredDocuments, setFilteredDocuments] = useState([]);
   const [likedPhotos, setLikedPhotos] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("success");
+
+  function createToast(severity, message) {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  }
 
   useEffect(() => {
     if (!user) return;
@@ -99,25 +110,34 @@ const Account = ({ ssrPhotoDocs }) => {
         <div>
           <div>
             <div className="flex justify-center my-3">
-              <p className="font-medium border-b-2 border-b-black ">
+              <p className="font-medium border-b-2 border-b-black px-3">
                 My Photos
               </p>
             </div>
-            <PhotoGallery photoDocuments={filteredDocuments} />
+            <PhotoGallery photoDocuments={filteredDocuments} createToast={createToast} />
           </div>
           {likedPhotos.length ? (
             <div>
               <div className="flex justify-center my-3">
-                <p className="font-medium border-b-2 border-b-black px-6">
+                <p className="font-medium border-b-2 border-b-black px-3">
                   Liked Photos
                 </p>
               </div>
-              <PhotoGallery photoDocuments={likedPhotos} />
+              <PhotoGallery photoDocuments={likedPhotos} createToast={createToast} />
             </div>
           ) : (
             <></>
           )}
         </div>
+        <Snackbar
+          open={open}
+          onClose={() => setOpen(false)}
+          autoHideDuration={3000}
+        >
+          <Alert severity={severity} variant="filled">
+            {message}
+          </Alert>
+        </Snackbar>
       </main>
     )
   );

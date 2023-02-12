@@ -1,32 +1,35 @@
 import { useModal } from "../context/ModalContext";
 import { useFirestore } from "../context/FirestoreContext";
+import { useAuth } from "../context/AuthContext";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
-const ActionBar = () => {
+const ActionBar = ({ createToast }) => {
   const { openModal } = useModal();
   const { pullPhotoDocuments } = useFirestore();
+  const { user } = useAuth();
 
-  function filter(e){
-    const query = e.target.value.toLowerCase().trim()
+  function filter(e) {
+    const query = e.target.value.toLowerCase().trim();
     const photoComponents = document.querySelectorAll(".photoContainer");
-    photoComponents.forEach((photo)=>{
-      const title = photo.querySelector(".photoTitle").innerHTML
-      if(title.toLowerCase().includes(query)){
+    photoComponents.forEach((photo) => {
+      const title = photo.querySelector(".photoTitle").innerHTML;
+      if (title.toLowerCase().includes(query)) {
         photo.style.display = "flex";
-      }else{
+      } else {
         photo.style.display = "none";
-
       }
-    })
-    
+    });
   }
 
   return (
     <div className="flex items-center justify-center my-2 space-x-2 sticky top-14 z-20 mx-32 lg:mx-40">
       <div
         className="border border-black h-9 w-9 rounded-full flex justify-center items-center bg-white opacity-75 hover:opacity-100 hover:cursor-pointer hover:shadow-md"
-        onClick={pullPhotoDocuments}
+        onClick={async () => {
+          await pullPhotoDocuments();
+          createToast("success", "Gallery Refreshed");
+        }}
       >
         <RefreshIcon />
       </div>
@@ -42,7 +45,9 @@ const ActionBar = () => {
         <div
           className="w-1/4 h-8 flex justify-center items-center bg-white rounded-r-full opacity-75 hover:opacity-100 hover:cursor-pointer space-x-1"
           onClick={() => {
-            openModal("add");
+            user
+              ? openModal("add", null, { createToast })
+              : createToast("warning", "You Must Be Signed In");
           }}
         >
           <AddPhotoAlternateOutlinedIcon />

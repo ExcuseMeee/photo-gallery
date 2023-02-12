@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { useEffect, useState } from "react";
 
-const ExpandedPhoto = ({ photoDocument }) => {
+const ExpandedPhoto = ({ photoDocument, createToast }) => {
   const { user, userData } = useAuth();
   const { deletePhoto, pullPhotoDocuments, likePhoto, dislikePhoto } = useFirestore();
   const { closeModal } = useModal();
@@ -24,9 +24,16 @@ const ExpandedPhoto = ({ photoDocument }) => {
   }, [userData]);
 
   async function deleteHandler() {
-    await deletePhoto(photoDocument.id, photoDocument.imageUrl);
-    await pullPhotoDocuments();
-    closeModal();
+    try {
+      await deletePhoto(photoDocument.id, photoDocument.imageUrl);
+      await pullPhotoDocuments();
+      closeModal();
+      createToast("success", "Photo Deleted")
+      
+    } catch (error) {
+      closeModal();
+      createToast("error", "Deletion Failed")
+    }
   }
 
   async function likeHandler() {

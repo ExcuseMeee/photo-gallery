@@ -13,9 +13,16 @@ export const ModalContextProvider = ({ children }) => {
   function ModalContent() {
     switch (modalType) {
       case "add":
-        return <AddPhoto />;
+        return (
+          <AddPhoto createToast={modalParameters.toastControl.createToast} />
+        );
       case "photo":
-        return <ExpandedPhoto photoDocument={modalParameters.photoDocument} />;
+        return (
+          <ExpandedPhoto
+            photoDocument={modalParameters.data.photoDocument}
+            createToast={modalParameters.toastControl.createToast}
+          />
+        );
 
       //Add more modal content below...
 
@@ -40,10 +47,10 @@ export const ModalContextProvider = ({ children }) => {
     );
   }
 
-  function openModal(type, data = {}) {
+  function openModal(type, data = {}, toastControl = {}) {
     setModalType(type);
     setModalState(true);
-    setModalParameters(data);
+    setModalParameters({ data, toastControl });
   }
 
   function closeModal() {

@@ -48,6 +48,7 @@ export const AuthContextProvider = ({ children }) => {
       setUserDocument(result.user);
     } catch (error) {
       console.log(error.message);
+      throw error;
     }
   }
 
@@ -59,6 +60,7 @@ export const AuthContextProvider = ({ children }) => {
       console.log("User signed out");
     } catch (error) {
       console.log(error.message);
+      throw error;
     }
   }
 

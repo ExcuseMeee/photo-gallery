@@ -5,7 +5,7 @@ import { useFirestore } from "../context/FirestoreContext";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const AddPhoto = () => {
+const AddPhoto = ({ createToast }) => {
   const { closeModal } = useModal();
   const { user } = useAuth();
   const { pullPhotoDocuments, addPhoto } = useFirestore();
@@ -24,9 +24,15 @@ const AddPhoto = () => {
       alert("Not signed in or no file");
       return;
     }
-    await addPhoto(file, title, user.email);
-    pullPhotoDocuments();
-    closeModal();
+    try {
+      await addPhoto(file, title, user.email);
+      pullPhotoDocuments();
+      closeModal();
+      createToast("success", "Photo Uploaded");
+    } catch (error) {
+      closeModal();
+      createToast("error", "Upload Failed");
+    }
   }
 
   return (
