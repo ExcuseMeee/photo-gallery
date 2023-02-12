@@ -33,7 +33,6 @@ export const FirestoreContextProvider = ({ children }) => {
       const photoDocs = data.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
-      // console.log("from context: ", photoDocs)
       setPhotoDocuments(photoDocs);
     } catch (error) {
       console.log(error);

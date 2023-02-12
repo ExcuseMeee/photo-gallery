@@ -21,7 +21,11 @@ const AddPhoto = ({ createToast }) => {
   async function submitPhoto(e) {
     e.preventDefault();
     if (!user || !file) {
-      alert("Not signed in or no file");
+      createToast("warning", "No User or File")
+      return;
+    }
+    if(title.length > 20){
+      createToast("warning", "Title Too Long")
       return;
     }
     try {
@@ -47,6 +51,7 @@ const AddPhoto = ({ createToast }) => {
         <input
           required
           type="text"
+          maxLength={20}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"

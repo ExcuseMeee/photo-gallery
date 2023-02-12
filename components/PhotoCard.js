@@ -13,7 +13,7 @@ const PhotoCard = ({ photoDocument, createToast }) => {
       className="w-2/3 lg:w-1/4 h-72 flex flex-col items-center justify-evenly bg-white rounded-lg m-2 divide-y hover:shadow-md hover:cursor-pointer photoContainer"
       onClick={handler}
     >
-      <div className="w-full flex justify-center h-fit photoTitle">
+      <div className="photoTitle w-full flex justify-center h-fit overflow-x-hidden">
         {photoDocument.title}
       </div>
       <div className="w-full h-5/6 flex items-center justify-center overflow-clip relative z-0">

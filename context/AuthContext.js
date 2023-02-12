@@ -18,13 +18,10 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
-      // console.log("onauth ran")
       if (userAuth) {
-        console.log("onauth: User signed in: ", userAuth);
         setUser(userAuth);
         watchUserDoc(userAuth);
       } else {
-        console.log("onauth: No user");
         setUser(null);
         setUnsubscribe(null);
         setUserData(null);
@@ -32,7 +29,6 @@ export const AuthContextProvider = ({ children }) => {
     });
 
     return () => {
-      console.log("cleanup called");
       if (unsubscribe) {
         unsubscribe();
       }
@@ -44,7 +40,6 @@ export const AuthContextProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log("sign in success ", result);
       setUserDocument(result.user);
     } catch (error) {
       console.log(error.message);
@@ -55,9 +50,7 @@ export const AuthContextProvider = ({ children }) => {
   async function logoutUser() {
     try {
       unsubscribe();
-      console.log("unsubbed");
       await signOut(auth);
-      console.log("User signed out");
     } catch (error) {
       console.log(error.message);
       throw error;
@@ -84,13 +77,11 @@ export const AuthContextProvider = ({ children }) => {
     const docSnap = await getDoc(docRef);
     //if dne then create doc
     if (!docSnap.exists()) {
-      console.log("docsnap does not exist, creating doc");
       await setDoc(docRef, {
         email: userAuthInfo.email,
         name: userAuthInfo.displayName,
         likedPhotos: [],
       });
-      console.log("doc created");
     }
   }
 
