@@ -29,7 +29,7 @@ const AddPhoto = ({ createToast }) => {
       return;
     }
     try {
-      await addPhoto(file, title, user.email);
+      await addPhoto(file, title, {uid: user.uid, name: user.displayName});
       pullPhotoDocuments();
       closeModal();
       createToast("success", "Photo Uploaded");

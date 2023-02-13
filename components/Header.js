@@ -26,6 +26,12 @@ const Header = ({ createToast }) => {
     }
   }
 
+  function clickHandler() {
+    if (!user) {
+      createToast("warning", "Please Sign In");
+    }
+  }
+
   return (
     <header className="bg-white flex items-center justify-between sticky top-0 shadow-md h-12 divide-x z-50">
       <div className="flex items-center mx-6 h-full">
@@ -42,10 +48,9 @@ const Header = ({ createToast }) => {
           Home
         </Link>
         <Link
-          href={"/account"}
-          className={`flex items-center justify-center h-full w-1/3 hover:bg-gray-100 min-w-fit ${
-            !user ? "bg-gray-200 pointer-events-none" : ""
-          }`}
+          href={user ? "/account" : "/"}
+          className={`flex items-center justify-center h-full w-1/3 hover:bg-gray-100 min-w-fit`}
+          onClick={clickHandler}
         >
           Account
         </Link>

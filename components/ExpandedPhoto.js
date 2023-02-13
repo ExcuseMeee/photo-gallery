@@ -51,7 +51,7 @@ const ExpandedPhoto = ({ photoDocument, createToast }) => {
       <div className="w-full h-[10%] flex flex-col justify-center items-center">
         <div className={`font-bold text-lg`}>{photoDocument.title}</div>
         <div className={`text-sm font-medium text-gray-400`}>
-          {photoDocument.postedBy}
+          {photoDocument.postedBy.name}
         </div>
       </div>
       <div className="border w-full h-[80%] flex items-center justify-center overflow-clip relative z-0">
@@ -64,7 +64,7 @@ const ExpandedPhoto = ({ photoDocument, createToast }) => {
         />
       </div>
       <div className="w-full h-[10%] flex justify-center items-center">
-        {user && user.email == photoDocument.postedBy ? (
+        {user && user.uid == photoDocument.postedBy.uid ? (
           // user logged in AND posted this image
           <div
             className={`flex hover:text-red-600 hover:cursor-pointer p-2 rounded-lg hover:bg-gray-100 hover:shadow-sm`}

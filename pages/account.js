@@ -47,10 +47,10 @@ const Account = ({ ssrPhotoDocs }) => {
     // if photoDocuments is null use ssrPhotoDocs, else use photoDocuments
     photoDocuments
       ? setFilteredDocuments(
-          photoDocuments.filter((doc) => doc.postedBy == user.email)
+          photoDocuments.filter((doc) => doc.postedBy.uid == user.uid)
         )
       : setFilteredDocuments(
-          ssrPhotoDocs.filter((doc) => doc.postedBy == user.email)
+          ssrPhotoDocs.filter((doc) => doc.postedBy.uid == user.uid)
         );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [photoDocuments, user]);
