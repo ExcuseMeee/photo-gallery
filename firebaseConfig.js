@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { getStorage } from 'firebase/storage'
+import { getStorage } from "firebase/storage";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 const firebaseConfig = {
   apiKey: "AIzaSyARQimdLVW3SNmdrbaSz9law0HnQxlWugs",
@@ -18,6 +19,10 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const auth = getAuth(app);
-const storage = getStorage(app)
+const storage = getStorage(app);
+
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider("6Lc773YkAAAAAHKeMBpns837cGYQhcjuwcb4BQ_w"),
+});
 
 export { db, auth, storage };
