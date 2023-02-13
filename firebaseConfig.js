@@ -21,8 +21,12 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
-const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider("6Lc773YkAAAAAHKeMBpns837cGYQhcjuwcb4BQ_w"),
-});
+if(typeof window !== "undefined"){
+  const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider("6Lc773YkAAAAAHKeMBpns837cGYQhcjuwcb4BQ_w"),
+    isTokenAutoRefreshEnabled: true,
+  });
+}
+
 
 export { db, auth, storage };
