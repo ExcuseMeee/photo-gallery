@@ -20,8 +20,12 @@ const AddPhoto = ({ createToast }) => {
 
   async function submitPhoto(e) {
     e.preventDefault();
-    if (!user || !file) {
-      createToast("warning", "No User or File")
+    if(!user){
+      createToast("warning", "You Must Be Signed In")
+      return;
+    }
+    if (!file) {
+      createToast("warning", "No File Selected")
       return;
     }
     if(title.length > 20){

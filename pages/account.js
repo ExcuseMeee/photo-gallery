@@ -114,7 +114,10 @@ const Account = ({ ssrPhotoDocs }) => {
                 My Photos
               </p>
             </div>
-            <PhotoGallery photoDocuments={filteredDocuments} createToast={createToast} />
+            <PhotoGallery
+              photoDocuments={filteredDocuments}
+              createToast={createToast}
+            />
           </div>
           {likedPhotos.length ? (
             <div>
@@ -123,7 +126,10 @@ const Account = ({ ssrPhotoDocs }) => {
                   Liked Photos
                 </p>
               </div>
-              <PhotoGallery photoDocuments={likedPhotos} createToast={createToast} />
+              <PhotoGallery
+                photoDocuments={likedPhotos}
+                createToast={createToast}
+              />
             </div>
           ) : (
             <></>
@@ -134,7 +140,14 @@ const Account = ({ ssrPhotoDocs }) => {
           onClose={() => setOpen(false)}
           autoHideDuration={3000}
         >
-          <Alert severity={severity} variant="filled">
+          <Alert
+            severity={severity}
+            variant="filled"
+            anchorOrigin={{
+              horizontal: `${severity == "success" ? "left" : "center"}`,
+              vertical: `${severity == "success" ? "bottom" : "top"}`,
+            }}
+          >
             {message}
           </Alert>
         </Snackbar>

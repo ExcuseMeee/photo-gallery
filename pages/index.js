@@ -5,8 +5,8 @@ import { db } from "../firebaseConfig";
 import { useFirestore } from "../context/FirestoreContext";
 import PhotoGallery from "../components/PhotoGallery";
 import { useState } from "react";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export async function getServerSideProps() {
   const collectionRef = collection(db, "photos");
@@ -25,14 +25,14 @@ export async function getServerSideProps() {
 export default function Home({ ssrPhotoDocs }) {
   const { photoDocuments } = useFirestore();
 
-  const [open, setOpen] = useState(false)
-  const [message, setMessage] = useState("")
-  const [severity, setSeverity] = useState("success")
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("success");
 
-  function createToast(severity, message){
-    setSeverity(severity)
-    setMessage(message)
-    setOpen(true)
+  function createToast(severity, message) {
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
   }
 
   return (
@@ -47,15 +47,29 @@ export default function Home({ ssrPhotoDocs }) {
       <main>
         <ActionBar createToast={createToast} />
         {photoDocuments ? (
-          <PhotoGallery photoDocuments={photoDocuments} createToast={createToast} />
+          <PhotoGallery
+            photoDocuments={photoDocuments}
+            createToast={createToast}
+          />
         ) : (
-          <PhotoGallery photoDocuments={ssrPhotoDocs} createToast={createToast} />
+          <PhotoGallery
+            photoDocuments={ssrPhotoDocs}
+            createToast={createToast}
+          />
         )}
-        <Snackbar open={open} onClose={()=> setOpen(false)} autoHideDuration={3000} >
-        <Alert severity={severity} variant="filled" >
-          {message}
-        </Alert>
-      </Snackbar>
+        <Snackbar
+          open={open}
+          onClose={() => setOpen(false)}
+          autoHideDuration={3000}
+          anchorOrigin={{
+            horizontal: `${severity == "success" ? "left" : "center"}`,
+            vertical: `${severity == "success" ? "bottom" : "top"}`,
+          }}
+        >
+          <Alert severity={severity} variant="filled">
+            {message}
+          </Alert>
+        </Snackbar>
       </main>
     </div>
   );

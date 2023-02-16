@@ -1,13 +1,11 @@
 import { useModal } from "../context/ModalContext";
 import { useFirestore } from "../context/FirestoreContext";
-import { useAuth } from "../context/AuthContext";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
 const ActionBar = ({ createToast }) => {
   const { openModal } = useModal();
   const { pullPhotoDocuments } = useFirestore();
-  const { user } = useAuth();
 
   function filter(e) {
     const query = e.target.value.toLowerCase().trim();
@@ -45,9 +43,7 @@ const ActionBar = ({ createToast }) => {
         <div
           className="w-1/4 h-8 flex justify-center items-center bg-white rounded-r-full opacity-75 hover:opacity-100 hover:cursor-pointer space-x-1"
           onClick={() => {
-            user
-              ? openModal("add", null, { createToast })
-              : createToast("warning", "You Must Be Signed In");
+            openModal("add", null, { createToast });
           }}
         >
           <AddPhotoAlternateOutlinedIcon />

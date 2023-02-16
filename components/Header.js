@@ -28,7 +28,7 @@ const Header = ({ createToast }) => {
 
   function clickHandler() {
     if (!user) {
-      createToast("warning", "Please Sign In");
+      createToast("warning", "Not Logged In");
     }
   }
 
