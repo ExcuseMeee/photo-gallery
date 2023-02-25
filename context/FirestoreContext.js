@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { db, storage } from "../firebaseConfig";
 import {
   getDocs,
@@ -26,6 +26,12 @@ export const FirestoreContextProvider = ({ children }) => {
   const usersColRef = collection(db, "users");
 
   const [photoDocuments, setPhotoDocuments] = useState(null);
+
+  useEffect(()=>{
+    pullPhotoDocuments();
+    console.log("useeffect ran")
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function pullPhotoDocuments() {
     try {

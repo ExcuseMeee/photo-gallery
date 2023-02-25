@@ -1,28 +1,13 @@
-import { collection, getDocs } from "firebase/firestore";
 import Head from "next/head";
 import ActionBar from "../components/ActionBar";
-import { db } from "../firebaseConfig";
 import { useFirestore } from "../context/FirestoreContext";
 import PhotoGallery from "../components/PhotoGallery";
 import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
 
-export async function getServerSideProps() {
-  const collectionRef = collection(db, "photos");
-  const data = await getDocs(collectionRef);
-  const photoDocs = data.docs.map((doc) => {
-    return { ...doc.data(), id: doc.id };
-  });
-
-  return {
-    props: {
-      ssrPhotoDocs: photoDocs,
-    },
-  };
-}
-
-export default function Home({ ssrPhotoDocs }) {
+export default function Home() {
   const { photoDocuments } = useFirestore();
 
   const [open, setOpen] = useState(false);
@@ -35,7 +20,7 @@ export default function Home({ ssrPhotoDocs }) {
     setOpen(true);
   }
 
-  return (
+  return photoDocuments ? (
     <div>
       <Head>
         <title>Photo Gallery</title>
@@ -46,17 +31,10 @@ export default function Home({ ssrPhotoDocs }) {
 
       <main>
         <ActionBar createToast={createToast} />
-        {photoDocuments ? (
-          <PhotoGallery
-            photoDocuments={photoDocuments}
-            createToast={createToast}
-          />
-        ) : (
-          <PhotoGallery
-            photoDocuments={ssrPhotoDocs}
-            createToast={createToast}
-          />
-        )}
+        <PhotoGallery
+          photoDocuments={photoDocuments}
+          createToast={createToast}
+        />
         <Snackbar
           open={open}
           onClose={() => setOpen(false)}
@@ -71,6 +49,10 @@ export default function Home({ ssrPhotoDocs }) {
           </Alert>
         </Snackbar>
       </main>
+    </div>
+  ) : (
+    <div className="min-h-screen flex justify-center items-center">
+      <CircularProgress />
     </div>
   );
 }
