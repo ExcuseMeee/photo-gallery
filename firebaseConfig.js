@@ -5,13 +5,13 @@ import { getStorage } from "firebase/storage";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyARQimdLVW3SNmdrbaSz9law0HnQxlWugs",
-  authDomain: "photo-gallery-e3990.firebaseapp.com",
-  projectId: "photo-gallery-e3990",
-  storageBucket: "photo-gallery-e3990.appspot.com",
-  messagingSenderId: "57177872599",
-  appId: "1:57177872599:web:e261eae674912b24e93892",
-  measurementId: "G-HFYSJV41F9",
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

@@ -29,7 +29,6 @@ export const FirestoreContextProvider = ({ children }) => {
 
   useEffect(()=>{
     pullPhotoDocuments();
-    console.log("useeffect ran")
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
