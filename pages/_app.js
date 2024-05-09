@@ -3,6 +3,7 @@ import { AuthContextProvider } from '../context/AuthContext'
 import { ModalContextProvider } from '../context/ModalContext'
 import { FirestoreContextProvider } from '../context/FirestoreContext'
 import '../styles/globals.css'
+import { Analytics } from '@vercel/analytics/react'
 
 export default function App({ Component, pageProps }) {
 
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }) {
         <ModalContextProvider>
           <Layout>
             <Component {...pageProps} />
+            <Analytics />
           </Layout>
         </ModalContextProvider>
       </FirestoreContextProvider>
